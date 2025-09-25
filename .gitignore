@@ -1,24 +1,51 @@
-# Logs
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore uploaded files in storage.
 /storage/*
-*.log
+!/storage/.keep
 
-# SQLite DB
-*.sqlite3
-*.sqlite3-journal
-*.sqlite3-wal
-*.sqlite3-shm
+# Ignore SQLite databases.
+/*.sqlite3
+/*.sqlite3-*
+db/*.sqlite3
+db/*.sqlite3-*
 
-# Byebug / Debug
-.byebug_history
+# Ignore master key for decrypting credentials and more.
+/config/master.key
 
-# Node/Yarn (falls du JS-Assets hast)
+# Ignore PID and socket files.
+/tmp/pids/*
+/tmp/sockets/*
+/tmp/cache/*
+
+# Ignore system files.
+/.byebug_history
+*.swp
+*.swo
+*~
+
+# Ignore node modules and yarn error logs.
 /node_modules
 /yarn-error.log
 
-# Vendor Bundles
+# Ignore coverage results.
+/coverage/
+
+# Ignore bundler vendor directory.
 /vendor/bundle
 
-# Environment
-.env
+# Ignore dotenv environment variables file.
+/.env
+.env.local
+.env.*.local
+
+# Ignore IDE/project settings
+/.idea
+/.vscode
