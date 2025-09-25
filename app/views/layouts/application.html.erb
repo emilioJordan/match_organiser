@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Match Organiser" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Bootstrap CSS %>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <!-- Simple Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-light border-bottom">
+      <div class="container">
+        <%= link_to "Match Organiser", root_path, class: "navbar-brand fw-bold" %>
+        
+        <div class="d-flex gap-2 align-items-center">
+          <% if logged_in? %>
+            <%= link_to "Alle Matches", matches_path, class: "btn btn-outline-primary btn-sm" %>
+            <% if current_user.organizer? %>
+              <%= link_to "Match erstellen", new_match_path, class: "btn btn-success btn-sm" %>
+            <% end %>
+            <span class="text-muted small">|</span>
+            <span class="text-muted small">Hallo <%= current_user.name %>!</span>
+            <%= link_to "Profil", user_path(current_user), class: "btn btn-outline-info btn-sm" %>
+            <%= link_to "Abmelden", logout_path, data: { turbo_method: :delete }, class: "btn btn-outline-secondary btn-sm" %>
+          <% else %>
+            <%= link_to "Anmelden", login_path, class: "btn btn-outline-primary btn-sm" %>
+            <%= link_to "Registrieren", signup_path, class: "btn btn-primary btn-sm" %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <% if flash.any? %>
+      <div class="container mt-3">
+        <% flash.each do |type, message| %>
+          <div class="alert alert-<%= type == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show">
+            <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+      <%= yield %>
+    </div>
+
+    <%# Bootstrap JavaScript %>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

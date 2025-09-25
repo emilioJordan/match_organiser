@@ -1,0 +1,61 @@
+<% content_for :title, "Registrieren - Match Organiser" %>
+
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="text-center mb-4">Registrieren</h4>
+        
+        <%= form_with model: @user, url: signup_path, local: true do |f| %>
+          <% if @user.errors.any? %>
+            <div class="alert alert-danger">
+              <ul class="mb-0">
+                <% @user.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          
+          <div class="mb-3">
+            <%= f.label :name, "Name", class: "form-label" %>
+            <%= f.text_field :name, class: "form-control", required: true %>
+          </div>
+          
+          <div class="mb-3">
+            <%= f.label :email, "E-Mail", class: "form-label" %>
+            <%= f.email_field :email, class: "form-control", required: true %>
+          </div>
+          
+          <div class="mb-3">
+            <%= f.label :role, "Rolle", class: "form-label" %>
+            <%= f.select :role, 
+                  options_for_select([
+                    ['Spieler', 'player'],
+                    ['Organisator', 'organizer']
+                  ]), 
+                  { prompt: 'Rolle wählen' }, 
+                  { class: "form-select", required: true } %>
+            <div class="form-text">Spieler können an Matches teilnehmen. Organisatoren können Matches erstellen.</div>
+          </div>
+          
+          <div class="mb-3">
+            <%= f.label :password, "Passwort", class: "form-label" %>
+            <%= f.password_field :password, class: "form-control", required: true %>
+          </div>
+          
+          <div class="mb-3">
+            <%= f.label :password_confirmation, "Passwort bestätigen", class: "form-label" %>
+            <%= f.password_field :password_confirmation, class: "form-control", required: true %>
+          </div>
+          
+          <%= f.submit "Account erstellen", class: "btn btn-success w-100 mb-3" %>
+        <% end %>
+        
+        <div class="text-center">
+          <%= link_to "Schon registriert? Hier anmelden", login_path %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
