@@ -1,0 +1,31 @@
+/* Bootstrap imports */
+@import "bootstrap";
+
+/* Custom styles for Match Organiser */
+.navbar-brand {
+  font-weight: bold;
+}
+
+.match-card {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+.match-card:hover {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.participation-buttons {
+  margin-top: 1rem;
+}
+
+.participants-list {
+  margin-top: 1rem;
+}
+
+.alert {
+  margin-bottom: 1rem;
+}

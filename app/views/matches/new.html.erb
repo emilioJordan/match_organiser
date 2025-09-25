@@ -1,0 +1,54 @@
+<% content_for :title, "Match erstellen - Match Organiser" %>
+
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="mb-4">Neues Match erstellen</h4>
+        
+        <%= form_with model: @match, local: true do |f| %>
+          <% if @match.errors.any? %>
+            <div class="alert alert-danger">
+              <ul class="mb-0">
+                <% @match.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          
+          <div class="mb-3">
+            <%= f.label :title, "Titel", class: "form-label" %>
+            <%= f.text_field :title, class: "form-control", placeholder: "z.B. Wöchentliches Fußballspiel", required: true %>
+          </div>
+          
+          <div class="row">
+            <div class="col-6 mb-3">
+              <%= f.label :date, "Datum", class: "form-label" %>
+              <%= f.date_field :date, class: "form-control", min: Date.current, required: true %>
+            </div>
+            <div class="col-6 mb-3">
+              <%= f.label :time, "Uhrzeit", class: "form-label" %>
+              <%= f.time_field :time, class: "form-control", required: true %>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <%= f.label :location, "Ort", class: "form-label" %>
+            <%= f.text_field :location, class: "form-control", placeholder: "z.B. Sportplatz Zentrum", required: true %>
+          </div>
+          
+          <div class="mb-4">
+            <%= f.label :description, "Beschreibung (optional)", class: "form-label" %>
+            <%= f.text_area :description, class: "form-control", rows: 3, placeholder: "Zusätzliche Informationen zum Match..." %>
+          </div>
+          
+          <div class="d-grid gap-2 d-md-flex">
+            <%= f.submit "Match erstellen", class: "btn btn-success" %>
+            <%= link_to "Abbrechen", matches_path, class: "btn btn-secondary" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

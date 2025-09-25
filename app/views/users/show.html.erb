@@ -1,0 +1,68 @@
+<% content_for :title, "#{@user.name} - Match Organiser" %>
+
+<div class="mb-3">
+  <%= link_to "← Zurück zu den Matches", matches_path, class: "btn btn-outline-secondary btn-sm" %>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="text-center mb-4">
+      <h3><%= @user.name %></h3>
+      <p class="text-muted"><%= @user.email %></p>
+      <span class="badge bg-<%= @user.organizer? ? 'success' : 'primary' %> fs-6">
+        <%= @user.organizer? ? 'Organisator' : 'Spieler' %>
+      </span>
+    </div>
+    
+    <% if @user.organizer? %>
+      <div class="mb-4">
+        <h5>Erstellte Matches</h5>
+        <% if @user.created_matches.upcoming.any? %>
+          <% @user.created_matches.upcoming.limit(5).each do |match| %>
+            <div class="border-bottom py-2">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <%= link_to match.title, match_path(match) %>
+                  <br><small class="text-muted">
+                    <%= match.date.strftime("%d.%m.%Y") %> um <%= match.time.strftime("%H:%M") %>
+                    • <%= match.confirmed_participants.count %> dabei
+                  </small>
+                </div>
+              </div>
+            </div>
+          <% end %>
+          <% if @user.created_matches.count > 5 %>
+            <p class="text-muted mt-2">... und <%= @user.created_matches.count - 5 %> weitere</p>
+          <% end %>
+        <% else %>
+          <p class="text-muted">Noch keine Matches erstellt.</p>
+        <% end %>
+      </div>
+    <% end %>
+    
+    <div>
+      <h5>Teilnahmen</h5>
+      <% confirmed_matches = @user.confirmed_matches %>
+      <% if confirmed_matches.any? %>
+        <% confirmed_matches.limit(5).each do |match| %>
+          <div class="border-bottom py-2">
+            <div class="d-flex justify-content-between">
+              <div>
+                <%= link_to match.title, match_path(match) %>
+                <br><small class="text-muted">
+                  <%= match.date.strftime("%d.%m.%Y") %> um <%= match.time.strftime("%H:%M") %>
+                  • Organisiert von <%= match.created_by.name %>
+                </small>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        <% if confirmed_matches.count > 5 %>
+          <p class="text-muted mt-2">... und <%= confirmed_matches.count - 5 %> weitere</p>
+        <% end %>
+      <% else %>
+        <p class="text-muted">Noch keine Teilnahmen bestätigt.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

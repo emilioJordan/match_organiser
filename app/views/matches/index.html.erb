@@ -1,0 +1,57 @@
+<% content_for :title, "Matches - Match Organiser" %>
+
+<div class="mb-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>Kommende Matches</h2>
+    <% if current_user.organizer? %>
+      <%= link_to "Neues Match", new_match_path, class: "btn btn-success" %>
+    <% end %>
+  </div>
+</div>
+
+<% if @matches.any? %>
+  <% @matches.each do |match| %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <h5 class="mb-1"><%= match.title %></h5>
+            <p class="text-muted mb-1">
+              <%= match.date.strftime("%d.%m.%Y") %> um <%= match.time.strftime("%H:%M") %> Uhr
+            </p>
+            <p class="text-muted mb-1">📍 <%= match.location %></p>
+            <p class="text-muted mb-0">von <%= match.created_by.name %></p>
+          </div>
+          <div class="col-md-2 text-center">
+            <div class="badge bg-success fs-6">
+              <%= match.confirmed_participants.count %> dabei
+            </div>
+            <% participation_status = match.participant_status_for(current_user) %>
+            <% if participation_status != 'not_participating' %>
+              <div class="mt-1">
+                <span class="badge bg-<%= participation_status == 'confirmed' ? 'success' : participation_status == 'declined' ? 'danger' : 'warning' %>">
+                  <%= participation_status == 'confirmed' ? 'Du bist dabei' : participation_status == 'declined' ? 'Du fehlst' : 'Unentschieden' %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+          <div class="col-md-2 text-end">
+            <%= link_to "Details", match_path(match), class: "btn btn-outline-primary btn-sm mb-1" %>
+            <% if current_user.organizer? && match.created_by == current_user %>
+              <br>
+              <%= link_to "Bearbeiten", edit_match_path(match), class: "btn btn-outline-secondary btn-sm" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="text-center py-5">
+    <h4 class="text-muted mb-3">Noch keine Matches geplant</h4>
+    <p class="text-muted">Sei der erste und organisiere ein Match!</p>
+    <% if current_user.organizer? %>
+      <%= link_to "Erstes Match erstellen", new_match_path, class: "btn btn-success" %>
+    <% end %>
+  </div>
+<% end %>

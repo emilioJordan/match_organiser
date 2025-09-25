@@ -1,0 +1,334 @@
+  [1m[35m (0.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "matches"[0m
+  [1m[35m (4.0ms)[0m  [1m[35mCREATE TABLE "matches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" text, "date" date, "time" time, "location" varchar, "created_by_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_matches_on_created_by_id" ON "matches" ("created_by_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "participations"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "participations" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "match_id" integer NOT NULL, "status" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "index_participations_on_match_id" ON "participations" ("match_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_participations_on_user_id" ON "participations" ("user_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "users"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "users" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "email" varchar, "password_digest" varchar, "role" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "amatches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" text, "date" date, "time" time, "location" varchar, "created_by_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_amatches_on_created_by_id" ON "amatches" ("created_by_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "amatches" ("id","title","description","date","time","location","created_by_id","created_at","updated_at")
+                     SELECT "id","title","description","date","time","location","created_by_id","created_at","updated_at" FROM "matches"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "matches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "matches" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "description" text, "date" date, "time" time, "location" varchar, "created_by_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_a45bcc172b"
+FOREIGN KEY ("created_by_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_matches_on_created_by_id" ON "matches" ("created_by_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "matches" ("id","title","description","date","time","location","created_by_id","created_at","updated_at")
+                     SELECT "id","title","description","date","time","location","created_by_id","created_at","updated_at" FROM "amatches"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "amatches"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aparticipations" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "match_id" integer NOT NULL, "status" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aparticipations_on_user_id" ON "aparticipations" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aparticipations_on_match_id" ON "aparticipations" ("match_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aparticipations" ("id","user_id","match_id","status","created_at","updated_at")
+                     SELECT "id","user_id","match_id","status","created_at","updated_at" FROM "participations"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE "participations"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "participations" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "match_id" integer NOT NULL, "status" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_cef7047618"
+FOREIGN KEY ("match_id")
+  REFERENCES "matches" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_participations_on_match_id" ON "participations" ("match_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_participations_on_user_id" ON "participations" ("user_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "participations" ("id","user_id","match_id","status","created_at","updated_at")
+                     SELECT "id","user_id","match_id","status","created_at","updated_at" FROM "aparticipations"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aparticipations"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aparticipations" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "match_id" integer NOT NULL, "status" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aparticipations_on_user_id" ON "aparticipations" ("user_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aparticipations_on_match_id" ON "aparticipations" ("match_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "aparticipations" ("id","user_id","match_id","status","created_at","updated_at")
+                     SELECT "id","user_id","match_id","status","created_at","updated_at" FROM "participations"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "participations"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "participations" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer NOT NULL, "match_id" integer NOT NULL, "status" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_cef7047618"
+FOREIGN KEY ("match_id")
+  REFERENCES "matches" ("id")
+, CONSTRAINT "fk_rails_e80f5ca3a2"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_participations_on_match_id" ON "participations" ("match_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_participations_on_user_id" ON "participations" ("user_id")[0m
+  [1m[35mSQL (0.1ms)[0m  [1m[32mINSERT INTO "participations" ("id","user_id","match_id","status","created_at","updated_at")
+                     SELECT "id","user_id","match_id","status","created_at","updated_at" FROM "aparticipations"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aparticipations"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20250925083211)[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20250925083148),
+(20250925082832);[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'test', '2025-09-25 08:58:39.779288', '2025-09-25 08:58:39.779290') RETURNING "key"[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "environment"]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('schema_sha1', '313a2368afa72770a9aba11a9afa230e7c3cc465', '2025-09-25 08:58:39.780378', '2025-09-25 08:58:39.780380') RETURNING "key"[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mFixtures Load (0.1ms)[0m  [1m[31mDELETE FROM "matches";
+DELETE FROM "participations";
+DELETE FROM "users";
+INSERT INTO "matches" ("id", "title", "description", "date", "time", "location", "created_by_id", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyText', '2025-09-25', '2000-01-01 10:31:48', 'MyString', 980190962, '2025-09-25 08:58:39.932246', '2025-09-25 08:58:39.932246'), (298486374, 'MyString', 'MyText', '2025-09-25', '2000-01-01 10:31:48', 'MyString', 298486374, '2025-09-25 08:58:39.932246', '2025-09-25 08:58:39.932246');
+INSERT INTO "participations" ("id", "user_id", "match_id", "status", "created_at", "updated_at") VALUES (980190962, 980190962, 980190962, 'MyString', '2025-09-25 08:58:39.935026', '2025-09-25 08:58:39.935026'), (298486374, 298486374, 298486374, 'MyString', '2025-09-25 08:58:39.935026', '2025-09-25 08:58:39.935026');
+INSERT INTO "users" ("id", "name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyString', 'MyString', '2025-09-25 08:58:39.936089', '2025-09-25 08:58:39.936089'), (298486374, 'MyString', 'MyString', 'MyString', 'MyString', '2025-09-25 08:58:39.936089', '2025-09-25 08:58:39.936089')[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (7.9ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_key_check[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+---------------------------------------------------
+UserFlowTest: test_unauthorized_access_is_prevented
+---------------------------------------------------
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Organizer"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "organizer"], ["created_at", "2025-09-25 08:58:40.015873"], ["updated_at", "2025-09-25 08:58:40.015873"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Player"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "player"], ["created_at", "2025-09-25 08:58:40.019001"], ["updated_at", "2025-09-25 08:58:40.019001"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/login" for 127.0.0.1 at 2025-09-25 10:58:40 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"email" => "[FILTERED]", "password" => "[FILTERED]"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Redirected to http://www.example.com/
+Completed 302 Found in 18ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 8.4ms)
+Started GET "/matches/new" for 127.0.0.1 at 2025-09-25 10:58:40 +0200
+Processing by MatchesController#new as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190964], ["LIMIT", 1]]
+Redirected to http://www.example.com/matches
+Filter chain halted as :require_organizer rendered or redirected
+Completed 302 Found in 4ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 1.0ms)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------------
+UserFlowTest: test_organizer_can_create_and_manage_matches
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Organizer"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "organizer"], ["created_at", "2025-09-25 08:58:40.123756"], ["updated_at", "2025-09-25 08:58:40.123756"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Player"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "player"], ["created_at", "2025-09-25 08:58:40.126458"], ["updated_at", "2025-09-25 08:58:40.126458"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/login" for 127.0.0.1 at 2025-09-25 10:58:40 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"email" => "[FILTERED]", "password" => "[FILTERED]"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Redirected to http://www.example.com/
+Completed 302 Found in 2ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+Started GET "/matches/new" for 127.0.0.1 at 2025-09-25 10:58:40 +0200
+Processing by MatchesController#new as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering matches/new.html.erb within layouts/application
+  Rendered matches/new.html.erb within layouts/application (Duration: 3.0ms | GC: 0.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 21.5ms | GC: 1.0ms)
+Completed 200 OK in 35ms (Views: 23.5ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 2.3ms)
+  [1m[36mMatch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "matches"[0m
+Started POST "/matches" for 127.0.0.1 at 2025-09-25 10:58:40 +0200
+Processing by MatchesController#create as HTML
+  Parameters: {"match" => {"title" => "Test Match", "date" => "2025-09-26", "time" => "19:00", "location" => "Test Location", "description" => "Test Description"}}
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mMatch Create (0.2ms)[0m  [1m[32mINSERT INTO "matches" ("title", "description", "date", "time", "location", "created_by_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["title", "Test Match"], ["description", "Test Description"], ["date", "2025-09-26"], ["time", "2000-01-01 19:00:00"], ["location", "Test Location"], ["created_by_id", 980190963], ["created_at", "2025-09-25 08:58:40.173246"], ["updated_at", "2025-09-25 08:58:40.173246"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/matches/980190963
+Completed 302 Found in 4ms (ActiveRecord: 0.3ms (3 queries, 2 cached) | GC: 0.0ms)
+  [1m[36mMatch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "matches"[0m
+  [1m[36mMatch Load (0.1ms)[0m  [1m[34mSELECT "matches".* FROM "matches" ORDER BY "matches"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------
+UserFlowTest: test_player_can_participate_in_matches
+----------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Organizer"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "organizer"], ["created_at", "2025-09-25 08:58:40.179068"], ["updated_at", "2025-09-25 08:58:40.179068"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Player"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "player"], ["created_at", "2025-09-25 08:58:40.181250"], ["updated_at", "2025-09-25 08:58:40.181250"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mMatch Create (0.2ms)[0m  [1m[32mINSERT INTO "matches" ("title", "description", "date", "time", "location", "created_by_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["title", "Test Match"], ["description", nil], ["date", "2025-09-26"], ["time", "2000-01-01 19:00:00"], ["location", "Test Location"], ["created_by_id", 980190963], ["created_at", "2025-09-25 08:58:40.182363"], ["updated_at", "2025-09-25 08:58:40.182363"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/login" for 127.0.0.1 at 2025-09-25 10:58:40 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"email" => "[FILTERED]", "password" => "[FILTERED]"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Redirected to http://www.example.com/
+Completed 302 Found in 3ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mParticipation Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participations"[0m
+Started POST "/matches/980190963/participations" for 127.0.0.1 at 2025-09-25 10:58:40 +0200
+Processing by ParticipationsController#create as HTML
+  Parameters: {"status" => "confirmed", "match_id" => "980190963"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190964], ["LIMIT", 1]]
+  [1m[36mMatch Load (0.1ms)[0m  [1m[34mSELECT "matches".* FROM "matches" WHERE "matches"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mParticipation Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "participations" WHERE "participations"."user_id" = ? AND "participations"."match_id" = ? LIMIT ?[0m  [["user_id", 980190964], ["match_id", 980190963], ["LIMIT", 1]]
+  [1m[36mParticipation Create (0.1ms)[0m  [1m[32mINSERT INTO "participations" ("user_id", "match_id", "status", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["user_id", 980190964], ["match_id", 980190963], ["status", "confirmed"], ["created_at", "2025-09-25 08:58:40.196077"], ["updated_at", "2025-09-25 08:58:40.196077"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/matches/980190963
+Completed 302 Found in 7ms (ActiveRecord: 0.6ms (4 queries, 0 cached) | GC: 0.0ms)
+  [1m[36mParticipation Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "participations"[0m
+  [1m[36mParticipation Load (0.1ms)[0m  [1m[34mSELECT "participations".* FROM "participations" ORDER BY "participations"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190964], ["LIMIT", 1]]
+  [1m[36mMatch Load (0.1ms)[0m  [1m[34mSELECT "matches".* FROM "matches" WHERE "matches"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1[0m  [[nil, "schema_sha1"]]
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN immediate TRANSACTION[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mFixtures Load (0.1ms)[0m  [1m[31mDELETE FROM "matches";
+DELETE FROM "participations";
+DELETE FROM "users";
+INSERT INTO "matches" ("id", "title", "description", "date", "time", "location", "created_by_id", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyText', '2025-09-25', '2000-01-01 10:31:48', 'MyString', 980190962, '2025-09-25 09:02:29.211647', '2025-09-25 09:02:29.211647'), (298486374, 'MyString', 'MyText', '2025-09-25', '2000-01-01 10:31:48', 'MyString', 298486374, '2025-09-25 09:02:29.211647', '2025-09-25 09:02:29.211647');
+INSERT INTO "participations" ("id", "user_id", "match_id", "status", "created_at", "updated_at") VALUES (980190962, 980190962, 980190962, 'MyString', '2025-09-25 09:02:29.214329', '2025-09-25 09:02:29.214329'), (298486374, 298486374, 298486374, 'MyString', '2025-09-25 09:02:29.214329', '2025-09-25 09:02:29.214329');
+INSERT INTO "users" ("id", "name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyString', 'MyString', '2025-09-25 09:02:29.215355', '2025-09-25 09:02:29.215355'), (298486374, 'MyString', 'MyString', 'MyString', 'MyString', '2025-09-25 09:02:29.215355', '2025-09-25 09:02:29.215355')[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (5.2ms)[0m  [1m[36mCOMMIT TRANSACTION[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_key_check[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+---------------------------------------------------
+UserFlowTest: test_unauthorized_access_is_prevented
+---------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Organizer"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "organizer"], ["created_at", "2025-09-25 09:02:29.249088"], ["updated_at", "2025-09-25 09:02:29.249088"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Player"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "player"], ["created_at", "2025-09-25 09:02:29.251591"], ["updated_at", "2025-09-25 09:02:29.251591"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/login" for 127.0.0.1 at 2025-09-25 11:02:29 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"email" => "[FILTERED]", "password" => "[FILTERED]"}
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Redirected to http://www.example.com/
+Completed 302 Found in 8ms (ActiveRecord: 0.2ms (1 query, 0 cached) | GC: 0.0ms)
+Started GET "/matches/new" for 127.0.0.1 at 2025-09-25 11:02:29 +0200
+Processing by MatchesController#new as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190964], ["LIMIT", 1]]
+Redirected to http://www.example.com/matches
+Filter chain halted as :require_organizer rendered or redirected
+Completed 302 Found in 2ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------
+UserFlowTest: test_player_can_participate_in_matches
+----------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Organizer"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "organizer"], ["created_at", "2025-09-25 09:02:29.302342"], ["updated_at", "2025-09-25 09:02:29.302342"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Player"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "player"], ["created_at", "2025-09-25 09:02:29.304514"], ["updated_at", "2025-09-25 09:02:29.304514"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mMatch Create (0.3ms)[0m  [1m[32mINSERT INTO "matches" ("title", "description", "date", "time", "location", "created_by_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["title", "Test Match"], ["description", nil], ["date", "2025-09-26"], ["time", "2000-01-01 19:00:00"], ["location", "Test Location"], ["created_by_id", 980190963], ["created_at", "2025-09-25 09:02:29.310892"], ["updated_at", "2025-09-25 09:02:29.310892"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/login" for 127.0.0.1 at 2025-09-25 11:02:29 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"email" => "[FILTERED]", "password" => "[FILTERED]"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Redirected to http://www.example.com/
+Completed 302 Found in 2ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+  [1m[36mParticipation Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participations"[0m
+Started POST "/matches/980190963/participations" for 127.0.0.1 at 2025-09-25 11:02:29 +0200
+Processing by ParticipationsController#create as HTML
+  Parameters: {"status" => "confirmed", "match_id" => "980190963"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190964], ["LIMIT", 1]]
+  [1m[36mMatch Load (0.1ms)[0m  [1m[34mSELECT "matches".* FROM "matches" WHERE "matches"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mParticipation Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "participations" WHERE "participations"."user_id" = ? AND "participations"."match_id" = ? LIMIT ?[0m  [["user_id", 980190964], ["match_id", 980190963], ["LIMIT", 1]]
+  [1m[36mParticipation Create (0.2ms)[0m  [1m[32mINSERT INTO "participations" ("user_id", "match_id", "status", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?) RETURNING "id"[0m  [["user_id", 980190964], ["match_id", 980190963], ["status", "confirmed"], ["created_at", "2025-09-25 09:02:29.342224"], ["updated_at", "2025-09-25 09:02:29.342224"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/matches/980190963
+Completed 302 Found in 27ms (ActiveRecord: 0.7ms (4 queries, 0 cached) | GC: 16.4ms)
+  [1m[36mParticipation Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "participations"[0m
+  [1m[36mParticipation Load (0.1ms)[0m  [1m[34mSELECT "participations".* FROM "participations" ORDER BY "participations"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190964], ["LIMIT", 1]]
+  [1m[36mMatch Load (0.0ms)[0m  [1m[34mSELECT "matches".* FROM "matches" WHERE "matches"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mBEGIN deferred TRANSACTION[0m
+----------------------------------------------------------
+UserFlowTest: test_organizer_can_create_and_manage_matches
+----------------------------------------------------------
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Organizer"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "organizer"], ["created_at", "2025-09-25 09:02:29.350688"], ["updated_at", "2025-09-25 09:02:29.350688"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mUser Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+  [1m[36mUser Create (0.1ms)[0m  [1m[32mINSERT INTO "users" ("name", "email", "password_digest", "role", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["name", "Test Player"], ["email", "[FILTERED]"], ["password_digest", "[FILTERED]"], ["role", "player"], ["created_at", "2025-09-25 09:02:29.352785"], ["updated_at", "2025-09-25 09:02:29.352785"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started POST "/login" for 127.0.0.1 at 2025-09-25 11:02:29 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"email" => "[FILTERED]", "password" => "[FILTERED]"}
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = ? LIMIT ?[0m  [["email", "[FILTERED]"], ["LIMIT", 1]]
+Redirected to http://www.example.com/
+Completed 302 Found in 2ms (ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 0.0ms)
+Started GET "/matches/new" for 127.0.0.1 at 2025-09-25 11:02:29 +0200
+Processing by MatchesController#new as HTML
+  [1m[36mUser Load (0.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering matches/new.html.erb within layouts/application
+  Rendered matches/new.html.erb within layouts/application (Duration: 3.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 69.0ms | GC: 41.9ms)
+Completed 200 OK in 76ms (Views: 71.4ms | ActiveRecord: 0.1ms (1 query, 0 cached) | GC: 42.1ms)
+  [1m[36mMatch Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "matches"[0m
+Started POST "/matches" for 127.0.0.1 at 2025-09-25 11:02:29 +0200
+Processing by MatchesController#create as HTML
+  Parameters: {"match" => {"title" => "Test Match", "date" => "2025-09-26", "time" => "19:00", "location" => "Test Location", "description" => "Test Description"}}
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mMatch Create (0.3ms)[0m  [1m[32mINSERT INTO "matches" ("title", "description", "date", "time", "location", "created_by_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING "id"[0m  [["title", "Test Match"], ["description", "Test Description"], ["date", "2025-09-26"], ["time", "2000-01-01 19:00:00"], ["location", "Test Location"], ["created_by_id", 980190963], ["created_at", "2025-09-25 09:02:29.438776"], ["updated_at", "2025-09-25 09:02:29.438776"]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/matches/980190963
+Completed 302 Found in 4ms (ActiveRecord: 0.4ms (3 queries, 2 cached) | GC: 0.1ms)
+  [1m[36mMatch Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "matches"[0m
+  [1m[36mMatch Load (0.1ms)[0m  [1m[34mSELECT "matches".* FROM "matches" ORDER BY "matches"."id" DESC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[36mUser Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mROLLBACK TRANSACTION[0m

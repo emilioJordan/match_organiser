@@ -1,0 +1,134 @@
+<% content_for :title, "#{@match.title} - Match Organiser" %>
+
+<div class="mb-3">
+  <%= link_to "← Zurück zu allen Matches", matches_path, class: "btn btn-outline-secondary btn-sm" %>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 class="mb-0"><%= @match.title %></h3>
+      <% if current_user.organizer? && @match.created_by == current_user %>
+        <div>
+          <%= link_to "Bearbeiten", edit_match_path(@match), class: "btn btn-outline-primary btn-sm" %>
+          <%= link_to "Löschen", match_path(@match), 
+              data: { turbo_method: :delete, turbo_confirm: "Match wirklich löschen?" },
+              class: "btn btn-outline-danger btn-sm" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <strong>Datum:</strong><br>
+        <%= @match.date.strftime("%A, %d.%m.%Y") %>
+      </div>
+      <div class="col-md-3">
+        <strong>Zeit:</strong><br>
+        <%= @match.time.strftime("%H:%M") %> Uhr
+      </div>
+      <div class="col-md-6">
+        <strong>Ort:</strong><br>
+        <%= @match.location %>
+      </div>
+    </div>
+    
+    <% if @match.description.present? %>
+      <div class="mb-4">
+        <strong>Beschreibung:</strong><br>
+        <%= simple_format(@match.description) %>
+      </div>
+    <% end %>
+    
+    <p class="text-muted mb-0">
+      Organisiert von <strong><%= @match.created_by.name %></strong>
+    </p>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Deine Teilnahme</h5>
+      </div>
+      <div class="card-body">
+        <% if @match.created_by == current_user %>
+          <p class="text-muted">Du organisierst dieses Match.</p>
+        <% else %>
+          <% if @participation %>
+            <div class="mb-3">
+              <span class="badge bg-<%= @participation.status == 'confirmed' ? 'success' : @participation.status == 'declined' ? 'danger' : 'warning' %> fs-6">
+                <%= @participation.status == 'confirmed' ? 'Du bist dabei' : @participation.status == 'declined' ? 'Du fehlst' : 'Unentschieden' %>
+              </span>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <%= form_with url: match_participation_path(@match, @participation), method: :patch, local: true do |f| %>
+                <%= f.hidden_field :status, value: 'confirmed' %>
+                <%= f.submit "Ich bin dabei!", class: "btn btn-success", disabled: @participation.status == 'confirmed' %>
+              <% end %>
+              
+              <%= form_with url: match_participation_path(@match, @participation), method: :patch, local: true do |f| %>
+                <%= f.hidden_field :status, value: 'declined' %>
+                <%= f.submit "Kann nicht", class: "btn btn-danger", disabled: @participation.status == 'declined' %>
+              <% end %>
+              
+              <%= link_to "Teilnahme zurückziehen", match_participation_path(@match, @participation), 
+                  data: { turbo_method: :delete, turbo_confirm: "Teilnahme wirklich zurückziehen?" },
+                  class: "btn btn-outline-secondary btn-sm" %>
+            </div>
+          <% else %>
+            <div class="d-grid gap-2">
+              <%= form_with url: match_participations_path(@match), method: :post, local: true do |f| %>
+                <%= f.hidden_field :status, value: 'confirmed' %>
+                <%= f.submit "Ich bin dabei!", class: "btn btn-success" %>
+              <% end %>
+              
+              <%= form_with url: match_participations_path(@match), method: :post, local: true do |f| %>
+                <%= f.hidden_field :status, value: 'declined' %>
+                <%= f.submit "Kann nicht", class: "btn btn-danger" %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0">Teilnehmer</h5>
+      </div>
+      <div class="card-body">
+        <% if @confirmed_participants.any? %>
+          <h6 class="text-success mb-2">
+            Dabei (<%= @confirmed_participants.count %>)
+          </h6>
+          <ul class="list-unstyled mb-3">
+            <% @confirmed_participants.each do |participant| %>
+              <li class="mb-1"><%= participant.name %></li>
+            <% end %>
+          </ul>
+        <% end %>
+        
+        <% if @declined_participants.any? %>
+          <h6 class="text-danger mb-2">
+            Fehlen (<%= @declined_participants.count %>)
+          </h6>
+          <ul class="list-unstyled mb-3">
+            <% @declined_participants.each do |participant| %>
+              <li class="mb-1 text-muted"><%= participant.name %></li>
+            <% end %>
+          </ul>
+        <% end %>
+        
+        <% if @confirmed_participants.empty? && @declined_participants.empty? %>
+          <p class="text-muted">Noch niemand hat geantwortet.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
