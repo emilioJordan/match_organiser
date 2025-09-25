@@ -6,7 +6,7 @@
       <div class="card-body">
         <h4 class="text-center mb-4">Registrieren</h4>
         
-        <%= form_with model: @user, url: signup_path, local: true do |f| %>
+        <%= form_with model: @user, url: signup_path, local: true, data: { turbo: false } do |f| %>
           <% if @user.errors.any? %>
             <div class="alert alert-danger">
               <ul class="mb-0">
