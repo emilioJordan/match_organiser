@@ -1,0 +1,24 @@
+# Logs
+/log/*
+/tmp/*
+/storage/*
+*.log
+
+# SQLite DB
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+
+# Byebug / Debug
+.byebug_history
+
+# Node/Yarn (falls du JS-Assets hast)
+/node_modules
+/yarn-error.log
+
+# Vendor Bundles
+/vendor/bundle
+
+# Environment
+.env
