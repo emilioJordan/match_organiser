@@ -7,12 +7,18 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    if @user.save
-      session[:user_id] = @user.id
-      flash[:notice] = "Account created successfully! Welcome, #{@user.name}!"
-      redirect_to root_path
-    else
-      render :new
+    
+    respond_to do |format|
+      if @user.save
+        session[:user_id] = @user.id
+        flash[:notice] = "Account erfolgreich erstellt! Willkommen, #{@user.name}!"
+        format.html { redirect_to root_path }
+        format.turbo_stream { redirect_to root_path }
+      else
+        flash.now[:alert] = "Bitte korrigieren Sie die Fehler unten."
+        format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream { render :new, status: :unprocessable_entity }
+      end
     end
   end
 
