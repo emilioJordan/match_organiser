@@ -2,12 +2,24 @@ class ParticipationsController < ApplicationController
   before_action :set_match
 
   def create
-    @participation = @match.participations.build(user: current_user, status: params[:status])
+    # Suche nach einer existierenden Teilnahme
+    @participation = @match.participations.find_by(user: current_user)
     
-    if @participation.save
-      flash[:notice] = "Your participation has been recorded!"
+    if @participation
+      # Aktualisiere die bestehende Teilnahme
+      if @participation.update(status: params[:status])
+        flash[:notice] = "Your participation has been updated!"
+      else
+        flash[:alert] = "Something went wrong. Please try again."
+      end
     else
-      flash[:alert] = "Something went wrong. Please try again."
+      # Erstelle eine neue Teilnahme
+      @participation = @match.participations.build(user: current_user, status: params[:status])
+      if @participation.save
+        flash[:notice] = "Your participation has been recorded!"
+      else
+        flash[:alert] = "Something went wrong. Please try again."
+      end
     end
     
     redirect_to @match

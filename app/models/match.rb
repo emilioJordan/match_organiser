@@ -12,15 +12,15 @@ class Match < ApplicationRecord
   scope :past, -> { where('date < ?', Date.current) }
 
   def confirmed_participants
-    participants.joins(:participations).where(participations: { status: 'confirmed' })
+    participants.joins(:participations).where(participations: { status: 'confirmed' }).distinct
   end
 
   def declined_participants
-    participants.joins(:participations).where(participations: { status: 'declined' })
+    participants.joins(:participations).where(participations: { status: 'declined' }).distinct
   end
 
   def pending_participants
-    participants.joins(:participations).where(participations: { status: 'pending' })
+    participants.joins(:participations).where(participations: { status: 'pending' }).distinct
   end
 
   def participant_status_for(user)

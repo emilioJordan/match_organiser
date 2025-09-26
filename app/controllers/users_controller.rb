@@ -24,7 +24,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    # Benutzer können alle Profile sehen (öffentliche Information in dieser App)
   end
 
   private

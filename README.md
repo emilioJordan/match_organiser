@@ -90,7 +90,7 @@ Der Match Organiser bietet eine zentrale, digitale Lösung mit klarer Rollenvert
 
 1. Repository klonen:
 ```bash
-git clone <repository-url>
+git clone <https://github.com/emilioJordan/match_organiserl>
 cd match_organiser
 ```
 
@@ -200,12 +200,12 @@ Match.has_many :participants, through: :participations, source: :user
 
 ### MVP (Minimum Viable Product)
 
-✅ **Benutzerregistrierung und -login**  
-✅ **Match-Erstellung** durch Organisatoren  
-✅ **Match-Anzeige** für alle Benutzer  
-✅ **Teilnahme-Zusagen/-Absagen**  
-✅ **Teilnehmerliste** auf Match-Detailseite  
-✅ **Match-Bearbeitung** und -löschung durch Ersteller  
+**Benutzerregistrierung und -login**  
+**Match-Erstellung** durch Organisatoren  
+**Match-Anzeige** für alle Benutzer  
+**Teilnahme-Zusagen/-Absagen**  
+**Teilnehmerliste** auf Match-Detailseite  
+**Match-Bearbeitung** und -löschung durch Ersteller  
 
 ### UI/UX Features
 

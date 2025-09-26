@@ -3,7 +3,7 @@
 <div class="mb-4">
   <div class="d-flex justify-content-between align-items-center">
     <h2>Kommende Matches</h2>
-    <% if current_user.organizer? %>
+    <% if current_user&.organizer? %>
       <%= link_to "Neues Match", new_match_path, class: "btn btn-success" %>
     <% end %>
   </div>

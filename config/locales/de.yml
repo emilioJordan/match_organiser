@@ -19,6 +19,8 @@ de:
               blank: "kann nicht leer sein"
             password:
               blank: "kann nicht leer sein"
+              too_short: "muss mindestens 8 Zeichen lang sein"
+              complexity: "muss mindestens eine Zahl oder ein Sonderzeichen enthalten"
             password_confirmation:
               blank: "kann nicht leer sein"
               confirmation: "stimmt nicht mit dem Passwort überein"
