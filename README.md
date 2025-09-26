@@ -17,20 +17,20 @@ Der Match Organiser bietet eine zentrale, digitale Lösung mit klarer Rollenvert
 
 ## Funktionale Anforderungen (MVP)
 
-1. ✅ **Benutzerregistrierung und -login** mit Rollenauswahl
-2. ✅ **Match-Erstellung** durch Organisatoren (Titel, Datum, Zeit, Ort)
-3. ✅ **Match-Anzeige** für alle registrierten Benutzer
-4. ✅ **Teilnahme-Zusagen/-Absagen** durch Spieler
-5. ✅ **Teilnehmerliste** auf Match-Detailseite
-6. ✅ **Match-Bearbeitung und -löschung** durch Ersteller
+1. **Benutzerregistrierung und -login** mit Rollenauswahl
+2. **Match-Erstellung** durch Organisatoren (Titel, Datum, Zeit, Ort)
+3. **Match-Anzeige** für alle registrierten Benutzer
+4. **Teilnahme-Zusagen/-Absagen** durch Spieler
+5. **Teilnehmerliste** auf Match-Detailseite
+6. **Match-Bearbeitung und -löschung** durch Ersteller
 
 ## Nicht-funktionale Anforderungen
 
-1. ✅ **Benutzerfreundlichkeit**: Intuitive, responsive Bootstrap-Oberfläche
-2. ✅ **Multiuser-Fähigkeit**: Gleichzeitige Nutzung durch mehrere Benutzer
-3. ✅ **Performance**: Optimierte Datenbankabfragen mit Eager Loading
-4. ✅ **Wartbarkeit**: Saubere MVC-Struktur nach Rails-Konventionen
-5. ✅ **Sicherheit**: BCrypt-Verschlüsselung und Session-Management
+1. **Benutzerfreundlichkeit**: Intuitive, responsive Bootstrap-Oberfläche
+2. **Multiuser-Fähigkeit**: Gleichzeitige Nutzung durch mehrere Benutzer
+3. **Performance**: Optimierte Datenbankabfragen mit Eager Loading
+4. **Wartbarkeit**: Saubere MVC-Struktur nach Rails-Konventionen
+5. **Sicherheit**: BCrypt-Verschlüsselung und Session-Management
 
 ## Technische Details
 
@@ -39,6 +39,43 @@ Der Match Organiser bietet eine zentrale, digitale Lösung mit klarer Rollenvert
 - **Datenbank**: SQLite3
 - **Frontend**: Bootstrap 5.3 mit Font Awesome Icons
 - **Authentication**: has_secure_password (BCrypt)
+
+## Datenbankschema (ERM)
+
+### Matches
+- **id** (PK)
+- **title**: Titel des Matches
+- **description**: Beschreibung
+- **date**: Datum
+- **time**: Uhrzeit
+- **location**: Ort
+- **created_by_id** (FK → users)
+- **created_at**: Erstellungszeitpunkt
+- **updated_at**: Letzter Änderungszeitpunkt
+
+### Users
+- **id** (PK)
+- **name**: Benutzername
+- **email**: E-Mail-Adresse
+- **password_digest**: Verschlüsseltes Passwort
+- **role**: Rolle (organizer/player)
+- **created_at**: Erstellungszeitpunkt
+- **updated_at**: Letzter Änderungszeitpunkt
+
+### Participations
+- **id** (PK)
+- **user_id** (FK → users)
+- **match_id** (FK → matches)
+- **status**: Status der Teilnahme
+- **created_at**: Erstellungszeitpunkt
+- **updated_at**: Letzter Änderungszeitpunkt
+
+### Beziehungen
+- Ein **User** kann mehrere **Matches** erstellen (als Organizer)
+- Ein **User** kann an mehreren **Matches** teilnehmen (als Player)
+- Ein **Match** hat einen **User** als Ersteller
+- Ein **Match** kann mehrere **Users** als Teilnehmer haben
+- Die **Participation** verbindet **Users** und **Matches** und speichert den Teilnahmestatus
 
 ## Installation und Setup
 
