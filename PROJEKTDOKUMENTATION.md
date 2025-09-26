@@ -3,8 +3,8 @@
 
 **Name:** Emilio Jordan  
 **Kurs:** 23-223 E  
-**Datum:** 25.09.2025  
-**PC-Nr:** [PC-Nummer]
+**Datum:** 26.09.2025  
+**PC-Nr:** [214]
 
 ---
 
@@ -17,11 +17,11 @@
 - **Framework**: Ruby on Rails 8.0.3 mit SQLite3
 
 ### Applikation ist lauffähig und erfüllt die Anforderungen
-- ✅ Benutzerregistrierung und -authentifizierung
-- ✅ Rollenbasierte Zugriffskontrolle (Organizer/Player)
-- ✅ CRUD-Operationen für Matches
-- ✅ Teilnahme-Management System
-- ✅ Multiuser-fähige Architektur
+- Benutzerregistrierung und -authentifizierung
+- Rollenbasierte Zugriffskontrolle (Organizer/Player)
+- CRUD-Operationen für Matches
+- Teilnahme-Management System
+- Multiuser-fähige Architektur
 
 ### Abschlusspräsentation
 - Live-Demo der funktionsfähigen Applikation
