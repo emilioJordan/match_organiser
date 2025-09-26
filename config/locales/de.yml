@@ -1,4 +1,25 @@
 de:
+  time:
+    formats:
+      default: "%d.%m.%Y %H:%M"
+      short: "%d.%m. %H:%M"
+      long: "%d. %B %Y %H:%M Uhr"
+    am: "vormittags"
+    pm: "nachmittags"
+  date:
+    formats:
+      default: "%d.%m.%Y"
+      short: "%d.%m."
+      long: "%d. %B %Y"
+    day_names: [Sonntag, Montag, Dienstag, Mittwoch, Donnerstag, Freitag, Samstag]
+    abbr_day_names: [So, Mo, Di, Mi, Do, Fr, Sa]
+    month_names: [~, Januar, Februar, März, April, Mai, Juni, Juli, August, September, Oktober, November, Dezember]
+    abbr_month_names: [~, Jan, Feb, Mär, Apr, Mai, Jun, Jul, Aug, Sep, Okt, Nov, Dez]
+    order:
+      - :day
+      - :month
+      - :year
+
   activerecord:
     attributes:
       user:
@@ -7,6 +28,9 @@ de:
         password: "Passwort"
         password_confirmation: "Passwort bestätigen"
         role: "Rolle"
+    roles:
+      organizer: "Organisator"
+      player: "Spieler"
     errors:
       models:
         user:
@@ -27,6 +51,29 @@ de:
             role:
               blank: "kann nicht leer sein"
               inclusion: "ist kein gültiger Wert"
+  activities:
+    match:
+      create: "Neues Match \"%{title}\" wurde erstellt"
+      update: "Match \"%{title}\" wurde aktualisiert"
+      destroy: "Match wurde gelöscht"
+    participation:
+      create: "%{user} nimmt an \"%{match}\" teil"
+      update: "%{user} hat den Teilnahmestatus für \"%{match}\" geändert"
+      destroy: "Teilnahme wurde zurückgezogen"
+    deleted_user: "Gelöschter Benutzer"
+    deleted_match: "Gelöschtes Match"
+  
   errors:
     messages:
       confirmation: "stimmt nicht mit dem Passwort überein"
+      record_invalid: "Validierung fehlgeschlagen: %{errors}"
+      taken: "ist bereits vergeben"
+      blank: "darf nicht leer sein"
+      too_short: "ist zu kurz (mindestens %{count} Zeichen)"
+      invalid: "ist ungültig"
+      inclusion: "ist nicht in der Liste enthalten"
+      required: "muss ausgefüllt werden"
+      not_a_number: "ist keine Zahl"
+      greater_than: "muss größer als %{count} sein"
+      less_than: "muss kleiner als %{count} sein"
+      not_an_integer: "muss eine ganze Zahl sein"

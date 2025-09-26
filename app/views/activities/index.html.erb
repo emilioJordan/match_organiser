@@ -1,0 +1,40 @@
+<% content_for :title, "Aktivitäten - Match Organiser" %>
+
+<div class="container mt-4">
+  <h2>Aktivitäten</h2>
+
+  <div class="list-group mt-3">
+    <% @activities.each do |version| %>
+      <div class="list-group-item">
+        <% if version.item_type == "Match" %>
+          <% match = version.item %>
+          <% if version.event == "create" %>
+            <i class="fas fa-plus-circle text-success"></i>
+            Neues Match "<%= match&.title || 'Gelöschtes Match' %>" wurde erstellt
+          <% elsif version.event == "update" %>
+            <i class="fas fa-edit text-warning"></i>
+            Match "<%= match&.title || 'Gelöschtes Match' %>" wurde aktualisiert
+          <% elsif version.event == "destroy" %>
+            <i class="fas fa-trash text-danger"></i>
+            Match wurde gelöscht
+          <% end %>
+        <% elsif version.item_type == "Participation" %>
+          <% participation = version.item %>
+          <% if version.event == "create" %>
+            <i class="fas fa-user-plus text-success"></i>
+            <%= participation&.user&.name || 'Gelöschter Benutzer' %> hat an "<%= participation&.match&.title || 'Gelöschtes Match' %>" teilgenommen
+          <% elsif version.event == "update" %>
+            <i class="fas fa-sync text-warning"></i>
+            <%= participation&.user&.name || 'Gelöschter Benutzer' %> hat den Teilnahmestatus für "<%= participation&.match&.title || 'Gelöschtes Match' %>" geändert
+          <% elsif version.event == "destroy" %>
+            <i class="fas fa-user-minus text-danger"></i>
+            Teilnahme wurde zurückgezogen
+          <% end %>
+        <% end %>
+        <small class="text-muted d-block mt-1">
+          <%= l(version.created_at, format: :short) %>
+        </small>
+      </div>
+    <% end %>
+  </div>
+</div>

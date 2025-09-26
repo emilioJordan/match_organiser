@@ -7,40 +7,40 @@ Participation.destroy_all
 organizer1 = User.create!(
   name: "Max Müller",
   email: "max@example.com",
-  password: "password",
-  password_confirmation: "password",
+  password: "passw0rd",
+  password_confirmation: "passw0rd",
   role: "organizer"
 )
 
 organizer2 = User.create!(
   name: "Sarah Schmidt",
   email: "sarah@example.com", 
-  password: "password",
-  password_confirmation: "password",
+  password: "passw0rd",
+  password_confirmation: "passw0rd",
   role: "organizer"
 )
 
 player1 = User.create!(
   name: "Tom Weber",
   email: "tom@example.com",
-  password: "password", 
-  password_confirmation: "password",
+  password: "passw0rd", 
+  password_confirmation: "passw0rd",
   role: "player"
 )
 
 player2 = User.create!(
   name: "Lisa Fischer",
   email: "lisa@example.com",
-  password: "password",
-  password_confirmation: "password", 
+  password: "passw0rd",
+  password_confirmation: "passw0rd", 
   role: "player"
 )
 
 player3 = User.create!(
   name: "Mike Johnson",
   email: "mike@example.com",
-  password: "password",
-  password_confirmation: "password",
+  password: "passw0rd",
+  password_confirmation: "passw0rd",
   role: "player"
 )
 

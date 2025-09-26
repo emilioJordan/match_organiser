@@ -14,6 +14,9 @@ Rails.application.routes.draw do
     resources :participations, only: [:create, :update, :destroy]
   end
   
+  # Activities route
+  resources :activities, only: [:index]
+
   # Root route
   root 'matches#index'
 

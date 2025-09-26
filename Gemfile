@@ -28,6 +28,9 @@ gem "dartsass-rails"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
+
+# Versioning and activity tracking
+gem 'paper_trail'
 gem "solid_cache"
 gem "solid_queue"
 gem "solid_cable"

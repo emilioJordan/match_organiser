@@ -33,6 +33,7 @@
         <div class="d-flex gap-2 align-items-center">
           <% if logged_in? %>
             <%= link_to "Alle Matches", matches_path, class: "btn btn-outline-primary btn-sm" %>
+            <%= link_to "Aktivitäten", activities_path, class: "btn btn-outline-secondary btn-sm" %>
             <% if current_user.organizer? %>
               <%= link_to "Match erstellen", new_match_path, class: "btn btn-success btn-sm" %>
             <% end %>

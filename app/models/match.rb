@@ -1,4 +1,6 @@
 class Match < ApplicationRecord
+  has_paper_trail
+  
   belongs_to :created_by, class_name: 'User'
   has_many :participations, dependent: :destroy
   has_many :participants, through: :participations, source: :user
